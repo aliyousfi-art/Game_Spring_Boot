@@ -14,12 +14,23 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Rate limiting simple par IP sur les endpoints de mutation (POST, DELETE, PUT).
  * Max 30 requêtes par fenêtre glissante de 60 secondes.
+ *
+ * Sécurité X-Forwarded-For :
+ *   Le header X-Forwarded-For est lu UNIQUEMENT si la variable d'environnement
+ *   TRUST_PROXY=true est définie, ce qui signifie que le service est derrière
+ *   un reverse proxy de confiance (nginx, load balancer…).
+ *   Sans cette variable, on utilise toujours l'IP de connexion directe pour
+ *   éviter le spoofing d'IP par un client malveillant.
  */
 @Component
 public class RateLimitFilter extends OncePerRequestFilter {
 
     private static final int MAX_REQUESTS = 30;
     private static final long WINDOW_MS    = 60_000L;
+
+    /** true si le service tourne derrière un reverse proxy de confiance. */
+    private static final boolean TRUST_PROXY =
+            "true".equalsIgnoreCase(System.getenv("TRUST_PROXY"));
 
     private record RequestCount(AtomicInteger count, long windowStart) {}
     private final ConcurrentHashMap<String, RequestCount> counters = new ConcurrentHashMap<>();
@@ -58,10 +69,16 @@ public class RateLimitFilter extends OncePerRequestFilter {
         chain.doFilter(request, response);
     }
 
+    /**
+     * Retourne l'IP réelle du client.
+     * X-Forwarded-For n'est utilisé que si TRUST_PROXY=true pour éviter le spoofing.
+     */
     private String getClientIp(HttpServletRequest request) {
-        String forwarded = request.getHeader("X-Forwarded-For");
-        if (forwarded != null && !forwarded.isBlank()) {
-            return forwarded.split(",")[0].trim();
+        if (TRUST_PROXY) {
+            String forwarded = request.getHeader("X-Forwarded-For");
+            if (forwarded != null && !forwarded.isBlank()) {
+                return forwarded.split(",")[0].trim();
+            }
         }
         return request.getRemoteAddr();
     }

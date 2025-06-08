@@ -84,6 +84,14 @@ public class JdbcGameDao implements GameDao {
                 new MapSqlParameterSource("id", id));
     }
 
+    @Override
+    public Collection<GameSessionDTO> findByGameId(String gameId) {
+        MapSqlParameterSource params = new MapSqlParameterSource("gameId", gameId);
+        return template.query(
+                "SELECT * FROM game_session WHERE game_id = :gameId", params, this::mapRow);
+    }
+
+
     private GameSessionDTO mapRow(java.sql.ResultSet rs, int rowNum) throws java.sql.SQLException {
         GameSessionDTO session = new GameSessionDTO();
         session.setSessionId(rs.getString("id"));

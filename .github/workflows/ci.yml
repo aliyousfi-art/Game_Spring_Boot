@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-game-api:
+    name: Build & Test — game-api
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build & test
+        run: mvn -B verify --no-transfer-progress
+        env:
+          # API_PASSWORD obligatoire au démarrage — valeur de test uniquement
+          API_PASSWORD: ci_test_password_not_used_in_prod
+
+  build-users-service:
+    name: Build & Test — users-service
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build & test
+        run: mvn -B verify --no-transfer-progress
+        working-directory: users-service
+        env:
+          USERS_API_PASSWORD: ci_test_password_not_used_in_prod

@@ -32,4 +32,12 @@ public class InMemoryGameDao implements GameDao {
     public void delete(String id) {
         sessions.remove(id);
     }
+
+    @Override
+    public Collection<GameSessionDTO> findByGameId(String gameId) {
+        return sessions.values().stream()
+                .filter(s -> gameId.equals(s.getGameId()))
+                .toList();
+    }
+
 }

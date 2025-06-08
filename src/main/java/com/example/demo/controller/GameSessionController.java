@@ -38,7 +38,7 @@ public class GameSessionController {
 
     @GetMapping("/{gameId}/sessions")
     public ResponseEntity<Collection<GameSessionDTO>> listSessions(@PathVariable String gameId) {
-        return new ResponseEntity<>(gameSessionService.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(gameSessionService.findByGameId(gameId), HttpStatus.OK);
     }
 
     @GetMapping("/{gameId}/sessions/{sessionId}")

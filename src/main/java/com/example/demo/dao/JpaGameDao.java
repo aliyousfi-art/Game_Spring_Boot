@@ -55,6 +55,14 @@ public class JpaGameDao implements GameDao {
         repository.deleteById(id);
     }
 
+    @Override
+    public Collection<GameSessionDTO> findByGameId(String gameId) {
+        return repository.findByGameId(gameId).stream()
+                .map(this::toDto)
+                .toList();
+    }
+
+
     private GameEntity toEntity(GameSessionDTO session) {
         GameEntity entity = new GameEntity();
         entity.id = session.getSessionId();

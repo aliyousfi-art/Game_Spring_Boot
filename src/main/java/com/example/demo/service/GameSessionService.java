@@ -124,4 +124,10 @@ public class GameSessionService {
     public Collection<GameSessionDTO> findAll() {
         return gameDao.findAll();
     }
+
+    public Collection<GameSessionDTO> findByGameId(String gameId) {
+        return gameDao.findByGameId(gameId);
+    }
+
+
 }

@@ -14,4 +14,6 @@ public interface GameDao {
     GameSessionDTO save(GameSessionDTO session);
 
     void delete(String id);
+
+    Collection<GameSessionDTO> findByGameId(String gameId);
 }
