@@ -46,7 +46,8 @@ public class SecurityConfig {
             .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .addFilterBefore(rateLimitFilter, UsernamePasswordAuthenticationFilter.class)
             .authorizeHttpRequests(auth -> {
-                // GET publics
+                // GET publics — endpoints sans authentification
+                auth.requestMatchers(HttpMethod.GET, "/heartbeat").permitAll();  // health check public
                 auth.requestMatchers(HttpMethod.GET, "/games/catalog/**").permitAll();
                 auth.requestMatchers(HttpMethod.GET, "/api/games/**").permitAll();
 
