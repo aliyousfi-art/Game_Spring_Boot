@@ -1,13 +1,12 @@
 package com.example.demo.dto;
 
-/**
- * DTO pour créer une nouvelle partie
- */
 public class CreateGameSessionRequest {
+
     private int playerCount;
     private int boardSize;
 
-    public CreateGameSessionRequest() {}
+    public CreateGameSessionRequest() {
+    }
 
     public CreateGameSessionRequest(int playerCount, int boardSize) {
         this.playerCount = playerCount;

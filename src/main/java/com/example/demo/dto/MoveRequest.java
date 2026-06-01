@@ -1,14 +1,13 @@
 package com.example.demo.dto;
 
-/**
- * DTO pour jouer un coup
- */
 public class MoveRequest {
+
     private String playerId;
     private int row;
     private int col;
 
-    public MoveRequest() {}
+    public MoveRequest() {
+    }
 
     public MoveRequest(String playerId, int row, int col) {
         this.playerId = playerId;
