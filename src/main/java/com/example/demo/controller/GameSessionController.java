@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.example.demo.dto.*;
 import com.example.demo.service.GameSessionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +20,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/games")
 public class GameSessionController {
 
-    @Autowired
-    private GameSessionService gameSessionService;
+    private final GameSessionService gameSessionService;
+
+    // Injection par constructeur - meilleure pratique Spring Boot moderne
+    public GameSessionController(GameSessionService gameSessionService) {
+        this.gameSessionService = gameSessionService;
+    }
 
     /**
      * 1. POST /api/games/{gameId}/sessions
