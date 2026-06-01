@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.dto;
 
 /**
  * DTO pour jouer un coup

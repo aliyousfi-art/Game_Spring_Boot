@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.dto;
 
 public record HeartbeatStatus(int bpm, String level) {
 

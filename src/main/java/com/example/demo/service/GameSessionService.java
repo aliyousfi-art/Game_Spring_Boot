@@ -1,6 +1,11 @@
-package com.example.demo;
+package com.example.demo.service;
 
 import java.util.*;
+
+import com.example.demo.dto.CreateGameSessionRequest;
+import com.example.demo.dto.GameSessionDTO;
+import com.example.demo.dto.MoveDTO;
+import com.example.demo.dto.MoveRequest;
 import org.springframework.stereotype.Service;
 
 /**
