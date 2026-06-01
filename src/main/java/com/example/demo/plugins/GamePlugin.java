@@ -8,4 +8,7 @@ public interface GamePlugin {
 
     String getName(Locale locale);
 
+    int getDefaultPlayerCount();
+
+    int getDefaultBoardSize();
 }
