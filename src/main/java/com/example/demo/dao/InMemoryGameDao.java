@@ -1,11 +1,13 @@
 package com.example.demo.dao;
 
 import com.example.demo.dto.GameSessionDTO;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 @Repository
+@Profile("memory")
 public class InMemoryGameDao implements GameDao {
 
     private final Map<String, GameSessionDTO> sessions = new HashMap<>();
