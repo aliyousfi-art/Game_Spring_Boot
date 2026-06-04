@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.example.demo.dto.*;
@@ -47,6 +48,13 @@ public class GameSessionController {
      * 2. GET /api/games/{gameId}/sessions/{sessionId}
      * Obtient l'état d'une partie en cours
      */
+    @GetMapping("/{gameId}/sessions")
+    public ResponseEntity<Collection<GameSessionDTO>> listSessions(
+            @PathVariable String gameId) {
+        Collection<GameSessionDTO> sessions = gameSessionService.findAll();
+        return new ResponseEntity<>(sessions, HttpStatus.OK);
+    }
+
     @GetMapping("/{gameId}/sessions/{sessionId}")
     public ResponseEntity<GameSessionDTO> getSession(
             @PathVariable String gameId,
@@ -110,6 +118,14 @@ public class GameSessionController {
     /**
      * Gestion des exceptions globales
      */
+    @DeleteMapping("/{gameId}/sessions/{sessionId}")
+    public ResponseEntity<Void> deleteSession(
+            @PathVariable String gameId,
+            @PathVariable String sessionId) {
+        gameSessionService.deleteSession(sessionId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleException(Exception e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

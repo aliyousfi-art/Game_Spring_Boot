@@ -4,7 +4,7 @@ public class HeartbeatStatus {
 
     private int value;
     private String status;
-
+    
     public HeartbeatStatus() {
     }
 
